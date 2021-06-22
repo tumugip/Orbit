@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" initial="ask_con">
+  <state id="ask_con">			      
+    <transition event="con_name" target="tell_origin"/>
+  </state>
+  <final id="tell_origin"/>
+</scxml>
