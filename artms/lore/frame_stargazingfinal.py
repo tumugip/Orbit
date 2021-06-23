@@ -66,9 +66,10 @@ def get_origin(con_id):
         # print(c_result[i]+'。')
     print(f"\nSYS> {con_name}座Sに関する伝承をお伝えします\n")
     origin = data[0]["origin"]
-    o_result = origin.split("。")
-    for i in range(len(o_result)):
-        print(o_result[i]+'。')
+    print(origin)
+    # o_result = origin.split("。")
+    # for i in range(len(o_result)):
+    #     print(o_result[i]+'。')
 
 # 発話から得られた情報をもとにフレームを更新
 def update_frame(frame, da, conceptdic):
