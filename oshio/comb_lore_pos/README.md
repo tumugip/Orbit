@@ -14,7 +14,7 @@
 
 ## 学習文を更新するには  
 ・[star_examples.txt](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/star_examples.txt)の文章例を更新  
-・`python3 comb_generate_da_samples.py`を実行（[comb_da_sample.dat](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_da_sample.dat)の作成）  
+・`python3 comb_generate_da_samples.py`を実行（[comb_da_samples.dat](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_da_samples.dat)の作成）  
 ・`python3 comb_train_da_model.py`を実行（[comb_svc.model](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_svc.model)の作成）  
 ・`python3 comb_generate_concept_samples.py`を実行（[comb_concept_samples.dat](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_concept_samples.dat)の作成）  
 ・`python3 comb_train_concept_model.py`を実行（[comb_crf.model](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_crf.model)の作成）  
