@@ -1,0 +1,13 @@
+import cv2
+import urllib.request as req
+from PIL import Image
+import matplotlib.pyplot as plt
+ 
+names = "samples1.jpg"
+url = "画像のURL"
+req.urlretrieve(url, names)
+ 
+#画像
+img = Image.open(names)
+plt.imshow(img)
+plt.show()
