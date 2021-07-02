@@ -7,15 +7,15 @@
 
 ## 実行するには  
 ### <実行コード>  
-`python3 comb_frame_system.py`  
+`python3 Orbit.py`  
 
 ### <動かすために実行するファイル>  
-[comb_frame_system.py](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_frame_system.py)  
+[Orbit.py](https://github.com/oshiooshi/Orbit/blob/main/Orbit/Orbit.py)  
 
 ## 学習文を更新するには  
-・[star_examples.txt](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/star_examples.txt)の文章例を更新  
-・`python3 comb_generate_da_samples.py`を実行（[comb_da_samples.dat](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_da_samples.dat)の作成）  
-・`python3 comb_train_da_model.py`を実行（[comb_svc.model](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_svc.model)の作成）  
-・`python3 comb_generate_concept_samples.py`を実行（[comb_concept_samples.dat](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_concept_samples.dat)の作成）  
-・`python3 comb_train_concept_model.py`を実行（[comb_crf.model](https://github.com/oshiooshi/Orbit/blob/main/oshio/comb_lore_pos/comb_crf.model)の作成）  
+・[star_examples.txt](https://github.com/oshiooshi/Orbit/blob/main/Orbit/star_examples.txt)の文章例を更新  
+・`python3 comb_generate_da_samples.py`を実行（[comb_da_samples.dat](https://github.com/oshiooshi/Orbit/blob/main/Orbit/comb_da_samples.dat)の作成）  
+・`python3 comb_train_da_model.py`を実行（[comb_svc.model](https://github.com/oshiooshi/Orbit/blob/main/Orbit/comb_svc.model)の作成）  
+・`python3 comb_generate_concept_samples.py`を実行（[comb_concept_samples.dat](https://github.com/oshiooshi/Orbit/blob/main/Orbit/comb_concept_samples.dat)の作成）  
+・`python3 comb_train_concept_model.py`を実行（[comb_crf.model](https://github.com/oshiooshi/Orbit/blob/main/Orbit/comb_crf.model)の作成）  
 ・`python3 comb_frame_system.py`の実行で対話スタート  
