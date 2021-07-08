@@ -164,6 +164,8 @@ def update_frame(frame, da, conceptdic):
             conceptdic[k] = ""
         elif k == "type" and v not in types:
             conceptdic[k] = ""
+        elif k == "name" and v not in names:
+            conceptdic[k] = ""        
     if da == "request-star":
         for k,v in conceptdic.items():
             # コンセプトの情報でスロットを埋める
@@ -179,7 +181,7 @@ def update_frame(frame, da, conceptdic):
             frame[k] = v
             
     elif da == "initialize":
-        frame = {"place": "", "date": "", "time":"", "type": "", "star": ""}
+        frame = {"place": "", "date": "", "time":"", "type": "", "name": ""}
     elif da == "correct-info":
         for k,v in conceptdic.items():
             if frame[k] == v:

@@ -1,6 +1,7 @@
 from slackbot.bot import respond_to     
 from slackbot.bot import listen_to      
 from slackbot.bot import default_reply 
+import json
 
 from comb_da_concept_extractor import DA_Concept
 from functions_basic import get_con, get_origin, update_frame, next_system_da
@@ -38,7 +39,7 @@ da_concept = DA_Concept()
 # フレーム
 frame = {"place": "", "date": "", "time": "", "type": "", "name": ""}
 
-# 最初の発言は無視するようにカウントを追加してみた
+#起動直後のみのメッセージを表示させる
 cnt = 0 
 
 @respond_to('(.*)')
@@ -47,77 +48,109 @@ def tell_comb(message,something):
     global cnt, frame
 
     if cnt == 0:
+        message.send('星について教えるゾ！')
         sysutt = uttdic["open-prompt"]
-        message.send(sysutt)
-        cnt += 1        
+        #message.send(sysutt)
+        cnt = 1    
+
+
+
+    da, conceptdic = da_concept.process(something)          
+
+    # 対話行為タイプとコンセプトを用いてフレームを更新
+    frame = update_frame(frame, da, conceptdic)
+
+    # 更新後のフレームを表示    
+    print("updated frame=", frame)    
+
+    # フレームからシステム対話行為を得る   
+    sys_da = next_system_da(frame)
+
+    # 遷移先がtell_infoの場合は情報を伝えて終了
+    if sys_da == "tell-info":
+        message.send('星について教えるゾ！')
+
+        place = frame["place"]
+        date = frame["date"]
+        time = frame["time"]
+        _type = frame["type"]
+
+        if _type == "星座":
+            lat = latlondic[place][0] # placeから緯度を取得
+            lon = latlondic[place][1] # placeから経度を取得
+            clock=times_all[time] #timeを数字のみ&17時〜4時に変換
+            
+            if date=="今日":
+                cw, new_date = get_sign_list_tod(lat,lon,clock)
+            elif date=="明日":
+                cw, new_date = get_sign_list_tom(lat,lon,clock)
+            
+            message.send("{} {}時の{}では以下の{}がが見えるゾ！".format(new_date, clock, place,_type))
+            for i in range(len(cw["result"])):
+                if cw["result"][i]["altitude"]!="水平線の下":
+                    attachments=[
+                        {
+                            'color':"#5980C0",
+                            'fields':[
+                                {'title':"方角", 'value':cw["result"][i]["direction"], 'short':True},
+                                {'title':"高度", 'value':cw["result"][i]["altitude"], 'short':True}
+                            ]
+                        }
+                    ]
+                    message.send_webapi(cw["result"][i]["jpName"], json.dumps(attachments))
+
+        elif _type == "惑星":
+            
+            lat = latlondic[place][0] # placeから緯度を取得
+            lon = latlondic[place][1] # placeから経度を取得
+            clock=times_all[time] #timeを数字のみ&17時〜4時に変換
+
+            if date=="今日":
+                cw, new_date = get_planet_list_tod(lat,lon,clock)
+            elif date=="明日":
+                cw, new_date = get_planet_list_tom(lat,lon,clock)
+
+            message.send("{} {}時の{}では以下の{}が見えるゾ！".format(new_date, clock, place,_type))
+            for i in range(len(cw["result"])):                
+                if cw["result"][i]["altitude"]!="水平線の下":
+                    
+                    attachments=[
+                        {
+                            'color':"#5980C0",
+                            'fields':[
+                                {'title':"方角", 'value':cw["result"][i]["direction"], 'short':True},
+                                {'title':"高度", 'value':cw["result"][i]["altitude"], 'short':True}
+                            ]
+                        }
+                    ]
+                    message.send_webapi(cw["result"][i]["jpName"], json.dumps(attachments))
+
+        elif _type == "伝承":
+            con_name,con_id = get_con(something)
+            con, content, ori, origin = get_origin(con_id,con_name)
+            attachments=[
+                {
+                    'color':"#5980C0",
+                    'fields':[
+                        {'title':"基本情報", 'value':content},
+                        {'title':"　", 'value':"" },
+                        {'title':"伝承", 'value':origin}
+                    ]
+                }
+            ]            
+            message.send_webapi("{}座".format(con_name), json.dumps(attachments))
+        
+        message.send('以上だゾ！\nご利用、ありがとござます〜！')
+        # フレームとカウントの初期化
+        frame = {"place": "", "date": "", "time": "", "type": "", "name": ""}
+        cnt = 0
+
+
 
     else:
-        da, conceptdic = da_concept.process(something)          
-
-        # 対話行為タイプとコンセプトを用いてフレームを更新
-        frame = update_frame(frame, da, conceptdic)
-
-        # 更新後のフレームを表示    
-        print("updated frame=", frame)    
-
-        # フレームからシステム対話行為を得る   
-        sys_da = next_system_da(frame)
-
-        # 遷移先がtell_infoの場合は情報を伝えて終了
-        if sys_da == "tell-info":
-            message.send('星について教えるゾ！')
-
-            place = frame["place"]
-            date = frame["date"]
-            time = frame["time"]
-            _type = frame["type"]
-
-            if _type == "星座":
-                lat = latlondic[place][0] # placeから緯度を取得
-                lon = latlondic[place][1] # placeから経度を取得
-                clock=times_all[time] #timeを数字のみ&17時〜4時に変換
-                
-                if date=="今日":
-                    cw, new_date = get_sign_list_tod(lat,lon,clock)
-                elif date=="明日":
-                    cw, new_date = get_sign_list_tom(lat,lon,clock)
-                
-                message.send(f'{new_date} {clock}時の{place}では以下の{_type}が見えるゾ！')
-                for i in range(len(cw["result"])):
-                    if cw["result"][i]["altitude"]!="水平線の下":
-                        message.send("{}->方角:{}　高度：{}".format(cw["result"][i]["jpName"],cw["result"][i]["direction"],cw["result"][i]["altitude"]))
-
-            elif _type == "惑星":
-                lat = latlondic[place][0] # placeから緯度を取得
-                lon = latlondic[place][1] # placeから経度を取得
-                clock=times_all[time] #timeを数字のみ&17時〜4時に変換
-
-                if date=="今日":
-                    cw, new_date = get_planet_list_tod(lat,lon,clock)
-                elif date=="明日":
-                    cw, new_date = get_planet_list_tom(lat,lon,clock)
-
-                message.send("{} {}時の{}では以下の{}が見えるゾ！".format(new_date, clock, place,_type))
-                for i in range(len(cw["result"])):
-                    if cw["result"][i]["altitude"]!="水平線の下":
-                        message.send("{}->方角:{}　高度：{}".format(cw["result"][i]["jpName"],cw["result"][i]["direction"],cw["result"][i]["altitude"]))
-            
-            elif _type == "伝承":
-                con_name,con_id = get_con(something)
-                con, content, ori, origin = get_origin(con_id,con_name)
-                message.send(f'{con}\n>{content}')
-                message.send(f'{ori}\n>{origin}')
-            
-            message.send('以上だゾ！\nご利用、ありがとござます〜！')
-            # フレームとカウントの初期化
-            frame = {"place": "", "date": "", "time": "", "type": "", "name": ""} 
-            cnt = 0
-
-
-        else:
-            # 対話行為に紐づいたテンプレートを用いてシステム発話を生成
-            sysutt = uttdic[sys_da]
-            message.send(sysutt) 
+        # 対話行為に紐づいたテンプレートを用いてシステム発話を生成
+        sysutt = uttdic[sys_da]
+        message.send(sysutt) 
 
 
 # # デコレータで入力内容のメンションがbotに飛ばされた際の反応を設定
