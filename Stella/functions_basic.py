@@ -144,9 +144,9 @@ def get_origin(con_id,con_name):
     url = requests.get(f'{origin_url}&id={con_id}&disp=on')
     data = json.loads(url.text)
     data = data["result"]
-    con = con_name + "座に関する基本情報をお伝えします"
+    con = con_name + "座に関する基本情報を伝えるゾ！"
     content = data[0]["content"]
-    ori = con_name + "座に関する伝承をお伝えします"
+    ori = con_name + "座に関する伝承を伝えるゾ！"
     origin = data[0]["origin"]
 
     return con, content, ori, origin

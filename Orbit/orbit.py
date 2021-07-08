@@ -169,13 +169,13 @@ def get_origin(con_id):
     url = requests.get(f'{origin_url}&id={con_id}&disp=on')
     data = json.loads(url.text)
     data = data["result"]
-    print(f"SYS> {con_name}座に関する基本情報をお伝えします！\n")
+    print(f"SYS> {con_name}座に関する基本情報を伝えるゾ！\n")
     content = data[0]["content"]
     c_result = content.split("。")
     for i in range(len(c_result)):
         print(c_result[i])
         # print(c_result[i]+'。')
-    print(f"\nSYS> {con_name}座に関する伝承をお伝えします！\n")
+    print(f"\nSYS> {con_name}座に関する伝承を伝えるゾ！\n")
     origin = data[0]["origin"]
     print(origin)
 
@@ -254,17 +254,17 @@ frame = {"place": "", "date": "", "time": "", "type": "", "name": ""}
 
 
 # システムプロンプト
-print("SYS> 星について学ぼう！")
+print("SYS> 星について教えるゾ！")
 print("SYS> 見える星座や惑星を知りたい？ 伝承を知りたい？")
 
 
 # 状態とシステム発話を紐づけた辞書
 uttdic = {"open-prompt": "見える星座や惑星を知りたい？ 伝承を知りたい？",
-          "ask-type": "情報種別を言ってね",
-          "ask-place": "地名を言ってね",
-          "ask-date": "日付を言ってね",
-          "ask-time": "時間を言ってね",
-          "ask-name": "星座の名前を言ってね"
+          "ask-type": "情報種別を言うんだゾ",
+          "ask-place": "地名を言うんだゾ",
+          "ask-date": "日付を言うんだゾ",
+          "ask-time": "時間を言うんだゾ",
+          "ask-name": "星座の名前を言うんだゾ"
 }
 
 
@@ -311,7 +311,7 @@ while True:
             elif date=="明日":
                 cw, new_date = get_sign_list_tom(lat,lon,clock)
             
-            print("{} {}時の{}では以下の{}が見えるよ！".format(new_date, clock, place,_type))
+            print("{} {}時の{}では以下の{}が見えるゾ！".format(new_date, clock, place,_type))
             for i in range(len(cw["result"])):
                 if cw["result"][i]["altitude"]!="水平線の下":
                     print("{}->方角:{}　高度：{}".format(cw["result"][i]["jpName"],cw["result"][i]["direction"],cw["result"][i]["altitude"]))
@@ -328,7 +328,7 @@ while True:
             elif date=="明日":
                 cw, new_date = get_planet_list_tom(lat,lon,clock)
 
-            print("{} {}時の{}では以下の{}が見えるよ！".format(new_date, clock, place,_type))
+            print("{} {}時の{}では以下の{}が見えるゾ！".format(new_date, clock, place,_type))
             for i in range(len(cw["result"])):
                 if cw["result"][i]["altitude"]!="水平線の下":
                     print("{}->方角:{}　高度：{}".format(cw["result"][i]["jpName"],cw["result"][i]["direction"],cw["result"][i]["altitude"]))
@@ -336,7 +336,7 @@ while True:
 
         
         if _type == "伝承":
-            print("SYS> 星の伝承についてお伝えします！")
+            print("SYS> 星の伝承について伝えるゾ！")
 
             con_name,con_id = get_con(text)
             ##print(f"{origin_url}&id={con_id}&disp=on")
@@ -351,7 +351,7 @@ while True:
         print("SYS>", sysutt)       
 
 # 終了発話
-print("ご利用ありがとうございました！")       
+print("ご利用、ありがとござます〜！")       
 
 
 # end of file

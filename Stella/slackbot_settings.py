@@ -1,6 +1,6 @@
 
-API_TOKEN = "xoxb-2161681480723-2190818312323-I1IAdhgRxSkKNFv3KJgntN1Y"
-default_reply = "ちょっとよく分からなかったです。ごめんなさい。"
+API_TOKEN = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+default_reply = "ちょっとよく分からなかったんだゾ、別の言い回しをしてみて欲しいゾ！"
 
 # 機能追加のコードを書いたディレクトリ名を入れる
 PLUGINS = ['plugins']

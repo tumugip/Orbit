@@ -3,29 +3,10 @@ from slackbot.bot import listen_to
 from slackbot.bot import default_reply 
 import json
 
-# フレーム完成形のコード
 from comb_da_concept_extractor import DA_Concept
 from functions_basic import get_con, get_origin, update_frame, next_system_da
 from functions_basic import get_sign_list_tod, get_sign_list_tom, get_planet_list_tod, get_planet_list_tom
 
-# @listen_to('ステラ')
-# def listen_func2(message):
-#     message.send('storytellerでステラだよ(^^)')
-#     message.send('見える星座や惑星が知りたい？伝承が知りたい？')
-
-# @respond_to('ステラ')
-# def reply_hello(message):
-#     attachments = [
-#         {
-#             'color': "#FF8000",
-#             'fields': [
-#                 {'title': "コマンド", 'value': "usagi help", 'short': True},
-#                 {'title': "コマンド", 'value': "usagi help", 'short': True},
-#                 {'title': "説明", 'value': "ヘルプを表示します", 'short': True},
-#             ]
-#         }
-#     ]
-#     message.send_webapi('コマンド一覧', json.dumps(attachments))
 
 latlondic = {'北海道': (43.06, 141.35), '青森': (40.82, 140.74), '岩手': (39.7, 141.15), '宮城': (38.27, 140.87),
                  '秋田': (39.72, 140.1), '山形': (38.24, 140.36), '福島': (37.75, 140.47), '茨城': (36.34, 140.45),
@@ -42,11 +23,11 @@ latlondic = {'北海道': (43.06, 141.35), '青森': (40.82, 140.74), '岩手': 
 
 # 状態とシステム発話を紐づけた辞書
 uttdic = {"open-prompt": "見える星座や惑星を知りたい？ 伝承を知りたい？",
-          "ask-type": "情報種別を言ってね",
-          "ask-place": "地名を言ってね",
-          "ask-date": "日付を言ってね",
-          "ask-time": "時間を言ってね",
-          "ask-name": "星座の名前を言ってね"
+          "ask-type": "情報種別を言うんだゾ",
+          "ask-place": "地名を言うんだゾ",
+          "ask-date": "日付を言うんだゾ",
+          "ask-time": "時間を言うんだゾ",
+          "ask-name": "星座の名前を言うんだゾ"
 }
 
 # 時間を数字化するための辞書
@@ -87,7 +68,7 @@ def tell_comb(message,something):
 
     # 遷移先がtell_infoの場合は情報を伝えて終了
     if sys_da == "tell-info":
-        message.send('星についてお伝えします(^^)')
+        message.send('星について教えるゾ！')
 
         place = frame["place"]
         date = frame["date"]
@@ -104,7 +85,7 @@ def tell_comb(message,something):
             elif date=="明日":
                 cw, new_date = get_sign_list_tom(lat,lon,clock)
             
-            message.send("{} {}時の{}では以下の{}が見えるよ！".format(new_date, clock, place,_type))
+            message.send("{} {}時の{}では以下の{}がが見えるゾ！".format(new_date, clock, place,_type))
             for i in range(len(cw["result"])):
                 if cw["result"][i]["altitude"]!="水平線の下":
                     attachments=[
@@ -129,7 +110,7 @@ def tell_comb(message,something):
             elif date=="明日":
                 cw, new_date = get_planet_list_tom(lat,lon,clock)
 
-            message.send("{} {}時の{}では以下の{}が見えるよ！".format(new_date, clock, place,_type))
+            message.send("{} {}時の{}では以下の{}が見えるゾ！".format(new_date, clock, place,_type))
             for i in range(len(cw["result"])):                
                 if cw["result"][i]["altitude"]!="水平線の下":
                     
@@ -159,8 +140,10 @@ def tell_comb(message,something):
             ]            
             message.send_webapi(con_name, json.dumps(attachments))
         
-        message.send('以上だゾ。\n他に知りたいことある？')
+        message.send('以上だゾ！\nご利用、ありがとござます〜！')
+        # フレームとカウントの初期化
         frame = {"place": "", "date": "", "time": "", "type": "", "name": ""}
+        cnt = 0
 
 
 
@@ -177,20 +160,4 @@ def tell_comb(message,something):
 #     message.send('知ってる') 
 #     message.react('+1')
 #     message.react('triumph')
-                                                         
-# @respond_to('変身して')
-# def mention_func2(message):
-#     res_list = ['咲きほこる花のプリンセス！キュアフローラ！', '澄みわたる海のプリンセス！キュアマーメイド！', 'きらめく星のプリンセス！キュアトゥインクル！',
-#     '真紅の炎のプリンセス！キュアスカーレット！']
-#     message.reply(random.choice(res_list))
 
-# # デコレータで入力内容がどこかで発された際の反応を設定（メンションじゃなくて良い）
-# @listen_to('疲れた|つかれた')
-# def listen_func1(message):
-#     res_list = ['頑張っててえらい', '今日はもうサボっちゃえ!']
-#     message.reply(random.choice(res_list))
-
-# @listen_to('私は(.*)です')
-# @listen_to('わたしは(.*)です')
-# def hello(message, something):
-#     message.reply('こんにちは！{0}さん。'.format(something))
