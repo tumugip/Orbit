@@ -48,7 +48,7 @@ def tell_comb(message,something):
     global cnt, frame
 
     if cnt == 0:
-        message.send("星について学ぼう！")
+        message.send('星について教えるゾ！')
         sysutt = uttdic["open-prompt"]
         #message.send(sysutt)
         cnt = 1    
@@ -138,7 +138,7 @@ def tell_comb(message,something):
                     ]
                 }
             ]            
-            message.send_webapi(con_name, json.dumps(attachments))
+            message.send_webapi("{}座".format(con_name), json.dumps(attachments))
         
         message.send('以上だゾ！\nご利用、ありがとござます〜！')
         # フレームとカウントの初期化
