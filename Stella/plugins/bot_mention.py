@@ -39,7 +39,7 @@ da_concept = DA_Concept()
 # フレーム
 frame = {"place": "", "date": "", "time": "", "type": "", "name": ""}
 
-# 最初の発言は無視するようにカウントを追加してみた
+#起動直後のみのメッセージを表示させる
 cnt = 0 
 
 @respond_to('(.*)')
